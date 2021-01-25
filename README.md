@@ -13,7 +13,7 @@ The DApp User Interface when running should look like...
 ![truffle test](images/ftc_transaction_history.png)
 
 ## Libraries
-
+ethers
 
 ## Getting Started
 

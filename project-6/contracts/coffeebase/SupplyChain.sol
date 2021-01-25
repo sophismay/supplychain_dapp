@@ -1,9 +1,16 @@
 pragma solidity ^0.4.24;
+
+import '../coffeeaccesscontrol/ConsumerRole.sol';
+import '../coffeeaccesscontrol/FarmerRole.sol';
+import '../coffeeaccesscontrol/DistributorRole.sol';
+import '../coffeeaccesscontrol/RetailerRole.sol';
+import '../coffeeaccesscontrol/FarmerRole.sol';
+import '../coffeecore/Ownable.sol';
 // Define a contract 'Supplychain'
-contract SupplyChain {
+contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, ConsumerRole {
 
   // Define 'owner'
-  address owner;
+  //address owner;
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -64,7 +71,7 @@ contract SupplyChain {
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    require(msg.sender == owner());
     _;
   }
 
@@ -96,57 +103,43 @@ contract SupplyChain {
 
   // Define a modifier that checks if an item.state of a upc is Processed
   modifier processed(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.Processed);
+    require(items[_upc].itemState == State.Processed);
     _;
   }
   
   // Define a modifier that checks if an item.state of a upc is Packed
   modifier packed(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.Packed);
+    require(items[_upc].itemState == State.Packed);
     _;
   }
 
   // Define a modifier that checks if an item.state of a upc is ForSale
   modifier forSale(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.ForSale);
+    require(items[_upc].itemState == State.ForSale);
     _;
   }
 
   // Define a modifier that checks if an item.state of a upc is Sold
   modifier sold(uint _upc) {
-    Item _item = items[_upc];
-    State _state = _item.itemState;
-    require(_state == State.Sold);
+    require(items[_upc].itemState == State.Sold);
     _;
   }
   
   // Define a modifier that checks if an item.state of a upc is Shipped
   modifier shipped(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.Shipped);
+    require(items[_upc].itemState == State.Shipped);
     _;
   }
 
   // Define a modifier that checks if an item.state of a upc is Received
   modifier received(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.Received);
+    require(items[_upc].itemState == State.Received);
     _;
   }
 
   // Define a modifier that checks if an item.state of a upc is Purchased
   modifier purchased(uint _upc) {
-    Item memory _item = items[_upc];
-    State memory _state = _item.itemState;
-    require(_state == State.Purchased);
+    require(items[_upc].itemState == State.Purchased);
     _;
   }
 
@@ -154,15 +147,15 @@ contract SupplyChain {
   // and set 'sku' to 1
   // and set 'upc' to 1
   constructor() public payable {
-    owner = msg.sender;
+    //owner = msg.sender;
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
   function kill() public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
+    if (msg.sender == owner()) {
+      selfdestruct(msg.sender);
     }
   }
 
@@ -178,23 +171,22 @@ contract SupplyChain {
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
     // Add the new item as part of Harvest
-    Item storage _item = Item({
-      sku: sku,
-      upc: _upc,
-      ownerID: owner,
-      originFarmerID: _originFarmerID,
-      originFarmName: _originFarmName,
-      originFarmInformation: _originFarmInformation,
-      originFarmLatitude: _originFarmLatitude,
-      originFarmLongitude: _originFarmLongitude,
-      productID: upc + sku,
-      productNotes: _productNotes,
-      itemState: State.Harvested
-    })
+    Item _item = items[_upc];
+    _item.sku = sku;
+    _item.upc = _upc;
+    _item.ownerID = _originFarmerID;
+    _item.originFarmerID =_originFarmerID;
+    _item.originFarmName = _originFarmName;
+    _item.originFarmInformation = _originFarmInformation;
+    _item.originFarmLatitude = _originFarmLatitude;
+    _item.originFarmLongitude = _originFarmLongitude;
+    _item.productID = upc + sku;
+    _item.productNotes = _productNotes;
+    _item.itemState = State.Harvested;
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
-    emit Harvest(_upc);
+    emit Harvested(_upc);
   }
 
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
@@ -236,7 +228,7 @@ contract SupplyChain {
     // Update the appropriate fields
     Item _item = items[_upc];
     _item.itemState = State.ForSale;
-    _item.price = _price;
+    _item.productPrice = _price;
     // Emit the appropriate event
     emit ForSale(_upc);
   }
@@ -375,7 +367,7 @@ contract SupplyChain {
       productID = _item.productID;
       productNotes = _item.productNotes;
       productPrice = _item.productPrice;
-      itemState = _item.itemState;
+      itemState = uint8(_item.itemState);
       distributorID = _item.distributorID;
       retailerID = _item.retailerID;
       consumerID = _item.consumerID;

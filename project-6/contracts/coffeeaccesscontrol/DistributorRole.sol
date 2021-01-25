@@ -15,7 +15,7 @@ contract DistributorRole {
 
   // In the constructor make the address that deploys this contract the 1st distributor
   constructor() public {
-    addDistributor(msg.sender);
+    _addDistributor(msg.sender);
   }
 
   // Define a modifier that checks to see if msg.sender has the appropriate role
@@ -26,7 +26,7 @@ contract DistributorRole {
 
   // Define a function 'isDistributor' to check this role
   function isDistributor(address account) public view returns (bool) {
-    return retailers.has(account);
+    return distributors.has(account);
   }
 
   // Define a function 'addDistributor' that adds this role
