@@ -171,18 +171,17 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
     // Add the new item as part of Harvest
-    Item _item = items[_upc];
-    _item.sku = sku;
-    _item.upc = _upc;
-    _item.ownerID = _originFarmerID;
-    _item.originFarmerID =_originFarmerID;
-    _item.originFarmName = _originFarmName;
-    _item.originFarmInformation = _originFarmInformation;
-    _item.originFarmLatitude = _originFarmLatitude;
-    _item.originFarmLongitude = _originFarmLongitude;
-    _item.productID = upc + sku;
-    _item.productNotes = _productNotes;
-    _item.itemState = State.Harvested;
+    items[_upc].sku = sku;
+    items[_upc].upc = _upc;
+    items[_upc].ownerID = _originFarmerID;
+    items[_upc].originFarmerID =_originFarmerID;
+    items[_upc].originFarmName = _originFarmName;
+    items[_upc].originFarmInformation = _originFarmInformation;
+    items[_upc].originFarmLatitude = _originFarmLatitude;
+    items[_upc].originFarmLongitude = _originFarmLongitude;
+    items[_upc].productID = upc + sku;
+    items[_upc].productNotes = _productNotes;
+    items[_upc].itemState = State.Harvested;
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
@@ -197,8 +196,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
   verifyCaller(_getFarmerID(_upc))
   {
     // Update the appropriate fields
-    Item _item = items[_upc];
-    _item.itemState = State.Processed;
+    items[_upc].itemState = State.Processed;
     
     // Emit the appropriate event
     emit Processed(_upc);
@@ -212,8 +210,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
   verifyCaller(_getFarmerID(_upc))
   {
     // Update the appropriate fields
-    Item _item = items[_upc];
-    _item.itemState = State.Packed;
+    items[_upc].itemState = State.Packed;
     // Emit the appropriate event
     emit Packed(_upc);
   }
@@ -226,9 +223,8 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
   verifyCaller(_getFarmerID(_upc))
   {
     // Update the appropriate fields
-    Item _item = items[_upc];
-    _item.itemState = State.ForSale;
-    _item.productPrice = _price;
+    items[_upc].itemState = State.ForSale;
+    items[_upc].productPrice = _price;
     // Emit the appropriate event
     emit ForSale(_upc);
   }
@@ -246,13 +242,12 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     {
     
     // Update the appropriate fields - ownerID, distributorID, itemState
-    Item storage _item = items[_upc];
-    _item.ownerID = msg.sender;
-    _item.distributorID = msg.sender;
-    _item.itemState = State.Sold;
+    items[_upc].ownerID = msg.sender;
+    items[_upc].distributorID = msg.sender;
+    items[_upc].itemState = State.Sold;
     
     // Transfer money to farmer
-    _item.originFarmerID.transfer(_item.productPrice);
+    items[_upc].originFarmerID.transfer(items[_upc].productPrice);
     
     // emit the appropriate event
     emit Sold(_upc);
@@ -267,8 +262,7 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     verifyCaller(items[_upc].distributorID)
     {
     // Update the appropriate fields
-    Item _item = items[_upc];
-    _item.itemState = State.Shipped;
+    items[_upc].itemState = State.Shipped;
     // Emit the appropriate event
     emit Shipped(_upc);
   }
@@ -282,10 +276,9 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     onlyRetailer()
     {
     // Update the appropriate fields - ownerID, retailerID, itemState
-    Item _item = items[_upc];
-    _item.ownerID = msg.sender;
-    _item.retailerID = msg.sender;
-    _item.itemState = State.Received;
+    items[_upc].ownerID = msg.sender;
+    items[_upc].retailerID = msg.sender;
+    items[_upc].itemState = State.Received;
     
     // Emit the appropriate event
     emit Received(_upc);
@@ -300,10 +293,9 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     onlyConsumer()
     {
     // Update the appropriate fields - ownerID, consumerID, itemState
-    Item _item = items[_upc];
-    _item.ownerID = msg.sender;
-    _item.consumerID = msg.sender;
-    _item.itemState = State.Purchased;
+    items[_upc].ownerID = msg.sender;
+    items[_upc].consumerID = msg.sender;
+    items[_upc].itemState = State.Purchased;
     
     // Emit the appropriate event
     emit Purchased(_upc);
@@ -323,14 +315,14 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     ) 
     {
       // Assign values to the 8 parameters
-      Item _item = items[_upc];
-      itemSKU = _item.sku;
-      itemUPC = _item.upc;
-      ownerID = _item.ownerID;
-      originFarmerID = _item.originFarmerID;
-      originFarmName = _item.originFarmName;
-      originFarmLatitude = _item.originFarmLatitude;
-      originFarmLongitude = _item.originFarmLongitude;
+      itemSKU = items[_upc].sku;
+      itemUPC = items[_upc].upc;
+      ownerID = items[_upc].ownerID;
+      originFarmerID = items[_upc].originFarmerID;
+      originFarmName = items[_upc].originFarmName;
+      originFarmInformation = items[_upc].originFarmInformation;
+      originFarmLatitude = items[_upc].originFarmLatitude;
+      originFarmLongitude = items[_upc].originFarmLongitude;
       
         
       return 
@@ -361,16 +353,15 @@ contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, Cons
     ) 
     {
       // Assign values to the 9 parameters
-      Item _item = items[_upc];
-      itemSKU = _item.sku;
-      itemUPC = _item.upc;
-      productID = _item.productID;
-      productNotes = _item.productNotes;
-      productPrice = _item.productPrice;
-      itemState = uint8(_item.itemState);
-      distributorID = _item.distributorID;
-      retailerID = _item.retailerID;
-      consumerID = _item.consumerID;
+      itemSKU = items[_upc].sku;
+      itemUPC = items[_upc].upc;
+      productID = items[_upc].productID;
+      productNotes = items[_upc].productNotes;
+      productPrice = items[_upc].productPrice;
+      itemState = uint8(items[_upc].itemState);
+      distributorID = items[_upc].distributorID;
+      retailerID = items[_upc].retailerID;
+      consumerID = items[_upc].consumerID;
       
       return 
       (
