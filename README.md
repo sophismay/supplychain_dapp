@@ -12,8 +12,16 @@ The DApp User Interface when running should look like...
 
 ![truffle test](images/ftc_transaction_history.png)
 
+## Contracts
+| Entity        | Hash/Address           | Etherscan Link  |
+| ------------- |:-------------:| -----:|
+| Transaction     | 0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 | https://rinkeby.etherscan.io/tx/0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 |
+| Supply Chain Contract      |   0xC1be8BB88Cd34D39B132ff8efc15D75885B575F0    | https://rinkeby.etherscan.io/address/0xc1be8bb88cd34d39b132ff8efc15d75885b575f0 |
+| Deployer Address | 0x2569a3f96e5fe5bdf4260729d64fd1e044512e70  |  https://rinkeby.etherscan.io/address/0x2569a3f96e5fe5bdf4260729d64fd1e044512e70 |
+
 ## Libraries
-ethers
+- web3 v1.3.3
+- @truffle/hdwallet-provider v1.2.1
 
 ## Getting Started
 
