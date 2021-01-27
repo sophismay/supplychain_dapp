@@ -1,6 +1,30 @@
-# Supply chain & data auditing
+# Supply chain 
 
-This repository containts an Ethereum DApp that demonstrates a Supply Chain flow between a Seller and Buyer. The user story is similar to any commonly used supply chain process. A Seller can add items to the inventory system stored in the blockchain. A Buyer can purchase such items from the inventory system. Additionally a Seller can mark an item as Shipped, and similarly a Buyer can mark an item as Received.
+## Synopsis
+
+This repository containts an Ethereum DApp that demonstrates a Supply Chain flow of coffee beans between sellers and buyers totalling 4 actors: Farmer, Distributor, Retailer and Consumer. The user story is similar to any commonly used supply chain process. A Seller can add items to the inventory system stored in the blockchain. A Buyer can purchase such items from the inventory system. Additionally a Seller can mark an item as Shipped, and similarly a Buyer can mark an item as Received.
+The asset (coffee beans) goes through the following states from farmer to consumer: Harvested, Processed, Packed, ForSale, Sold, Shipped, Received and Purchased.
+
+
+## Contracts
+
+| Entity        | Hash/Address           | Etherscan Link  |
+| ------------- |:-------------:| -----:|
+| SupplyChain Transaction     | 0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 | https://rinkeby.etherscan.io/tx/0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 |
+| Supply Chain Contract      |   0xC1be8BB88Cd34D39B132ff8efc15D75885B575F0    | https://rinkeby.etherscan.io/address/0xc1be8bb88cd34d39b132ff8efc15d75885b575f0 |
+| Deployer Address | 0x2569a3f96e5fe5bdf4260729d64fd1e044512e70  |  https://rinkeby.etherscan.io/address/0x2569a3f96e5fe5bdf4260729d64fd1e044512e70 |
+|ConsumerRole|0xa6Ca19DCDe0779F09c0Cb33Aa4f766E02AB0CED9|https://rinkeby.etherscan.io/address/0xa6Ca19DCDe0779F09c0Cb33Aa4f766E02AB0CED9|
+|RetailerRole|0x93c51e9559914ff17423d870C852B83600D3120E|https://rinkeby.etherscan.io/address/0x93c51e9559914ff17423d870C852B83600D3120E|
+|DistributorRole|0x030f46977B5708870A18f286e71353CFBc5c30d8|https://rinkeby.etherscan.io/address/0x030f46977B5708870A18f286e71353CFBc5c30d8|
+|FarmerRole|0x886e81521CE8f54150954F0Bb53810C37597e3Cc|https://rinkeby.etherscan.io/address/0x886e81521CE8f54150954F0Bb53810C37597e3Cc|
+
+## Libraries
+| Library        | Version           | Purpose  |
+| ------------- |:-------------:| -----:|
+| web3 |  1.3.3 | specifically for web3 utils|
+| @truffle/hdwallet-provider | 1.2.1 | Deploying the contracts to rinkeby public test network |
+| @truffle/contract | 4.3.5 | Injected in index.html. Other truffle-conract.js was erred/buggy |
+
 
 The DApp User Interface when running should look like...
 
@@ -10,18 +34,8 @@ The DApp User Interface when running should look like...
 
 ![truffle test](images/ftc_product_details.png)
 
-![truffle test](images/ftc_transaction_history.png)
+![truffle test](images/transaction_history_supplychain.png)
 
-## Contracts
-| Entity        | Hash/Address           | Etherscan Link  |
-| ------------- |:-------------:| -----:|
-| Transaction     | 0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 | https://rinkeby.etherscan.io/tx/0x10d8957c358e789aacc1fca11e7645897aa8d1c9e8cb5c740ea0abc0f4764075 |
-| Supply Chain Contract      |   0xC1be8BB88Cd34D39B132ff8efc15D75885B575F0    | https://rinkeby.etherscan.io/address/0xc1be8bb88cd34d39b132ff8efc15d75885b575f0 |
-| Deployer Address | 0x2569a3f96e5fe5bdf4260729d64fd1e044512e70  |  https://rinkeby.etherscan.io/address/0x2569a3f96e5fe5bdf4260729d64fd1e044512e70 |
-
-## Libraries
-- web3 v1.3.3
-- @truffle/hdwallet-provider v1.2.1
 
 ## Getting Started
 
